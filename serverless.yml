@@ -1,0 +1,62 @@
+service: dynamodb-crud-api
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: us-east-1  
+
+functions:
+  addUser:
+    handler: handler.addUser
+    events:
+      - http:
+          path: /addUser
+          method: post
+          cors: true
+
+  getUser:
+    handler: handler.getUser
+    events:
+      - http:
+          path: /getUser/{UserId}
+          method: get
+          cors: true
+
+  updateUser:
+    handler: handler.updateUser
+    events:
+      - http:
+          path: /updateUser/{userId}
+          method: put
+          cors: true
+
+  deleteUser:
+    handler: handler.deleteUser
+    events:
+      - http:
+          path: /deleteUser/{userId}
+          method: delete
+          cors: true
+
+iamRoleStatements:
+  - Effect: Allow
+    Action:
+      - dynamodb:PutItem
+      - dynamodb:DeleteItem
+      - dynamodb:GetItem 
+      - dynamodb:Query
+resources:
+  Resources:
+    UsersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: UsersTable
+        AttributeDefinitions:
+          - AttributeName: UserId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: UserId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5

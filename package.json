@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.451.0",
+    "@aws-sdk/util-dynamodb": "^3.451.0",
+    "aws-sdk": "^2.1497.0",
+    "serverless-http": "^3.2.0"
+  }
+}
